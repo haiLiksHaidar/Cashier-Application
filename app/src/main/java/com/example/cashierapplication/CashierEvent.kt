@@ -15,6 +15,6 @@ sealed interface CashierEvent {
     data class SetDrinkName(val drinkName: String): CashierEvent
     data class SetFoodPrice (val foodPrice: Int): CashierEvent
     data class SetDrinkPrice (val drinkPrice: Int): CashierEvent
-    data class drinkImageResourceId (val drinkImageResourceId: Int): CashierEvent
-    data class foodImageResourceId (val foodImageResourceId: Int): CashierEvent
+    data class DrinkImageResourceId (val drinkImageResourceId: Int): CashierEvent
+//    data class foodImageResourceId (val foodImageResourceId: Int): CashierEvent
 }

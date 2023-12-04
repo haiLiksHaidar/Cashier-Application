@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Food(
     val name: String,
     val price: Int,
-    val imageResourceId: Int, // ID gambar makanan
+//    val imageResourceId: Int, // ID gambar makanan
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 )

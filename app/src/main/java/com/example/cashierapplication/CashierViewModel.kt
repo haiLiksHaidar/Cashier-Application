@@ -1,5 +1,6 @@
 package com.example.cashierapplication
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +31,7 @@ class CashierViewModel(private val dao: CashierDao) : ViewModel() {
                     dao.deleteTransactionItemById(event.transactionItemId)
                 }
             }
-            is CashierEvent.foodImageResourceId -> TODO()
+//            is CashierEvent.foodImageResourceId -> TODO()
             is CashierEvent.GetDrinkById -> TODO()
             is CashierEvent.GetFoodById -> TODO()
             CashierEvent.GetTotalPrice -> TODO()
@@ -44,53 +45,55 @@ class CashierViewModel(private val dao: CashierDao) : ViewModel() {
                 val drinkImageResourceId = _state.value.drinkImageResourceId
 
                 if (drinkName.isBlank() || drinkPrice <= 0 || drinkImageResourceId == 0) {
-                    // Handle invalid data
-                } else {
-                    val food = Food(
+                    return
+                }
+                    val drink = Drink(
                         name = drinkName,
                         price = drinkPrice,
                         imageResourceId = drinkImageResourceId
                     )
 
                     viewModelScope.launch {
-                        dao.upsertFood(food)
+                        dao.upsertDrink(drink)
                         // Additional operations, e.g., calculating total price.
                     }
 
                     _state.update { it.copy(
                         isAddingTransactionItem = false,
-                        foodName = "",
-                        foodPrice = 0,
-                        foodImageResourceId = 0
+                        drinkName = "",
+                        drinkPrice = 0,
+                        drinkImageResourceId = 0
                     )}
-                }
+
             }
             CashierEvent.SaveFood -> {
                 val foodName = _state.value.foodName
                 val foodPrice = _state.value.foodPrice
-                val foodImageResourceId = _state.value.foodImageResourceId
+//                val foodImageResourceId = _state.value.foodImageResourceId
 
-                if (foodName.isBlank() || foodPrice <= 0 || foodImageResourceId == 0) {
-                    // Handle invalid data
-                } else {
+                if (foodName.isBlank() || foodPrice <= 0) {
+                    return
+                }
                     val food = Food(
                         name = foodName,
-                        price = foodPrice,
-                        imageResourceId = foodImageResourceId
-                    )
+                        price = foodPrice
 
+                    )
+                    Log.d("SaveFood","Upserting food:  $food")
                     viewModelScope.launch {
                         dao.upsertFood(food)
                         // Additional operations, e.g., calculating total price.
                     }
+                        Log.d("SaveFood","succes")
 
-                    _state.update { it.copy(
+                    _state.update {
+                        it.copy(
                         isAddingTransactionItem = false,
                         foodName = "",
-                        foodPrice = 0,
-                        foodImageResourceId = 0
+                        foodPrice = 0
+//                        foodImageResourceId = 0
                     )}
-                }
+
             }
 
 
@@ -114,16 +117,16 @@ class CashierViewModel(private val dao: CashierDao) : ViewModel() {
                     drinkPrice = event.drinkPrice
                 )}
             }
-            is CashierEvent.drinkImageResourceId -> {
+            is CashierEvent.DrinkImageResourceId -> {
                 _state.update { it.copy(
                     drinkImageResourceId = event.drinkImageResourceId
                 ) }
             }
-            is CashierEvent.foodImageResourceId -> {
-                _state.update { it.copy(
-                    foodImageResourceId = event.foodImageResourceId
-                ) }
-            }
+//            is CashierEvent.foodImageResourceId -> {
+//                _state.update { it.copy(
+//                    foodImageResourceId = event.foodImageResourceId
+//                ) }
+//            }
             CashierEvent.ShowDialog -> {
                 _state.update { it.copy(
                     isAddingTransactionItem = true

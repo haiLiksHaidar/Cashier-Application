@@ -1,5 +1,6 @@
 package com.example.cashierapplication
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlin.math.log
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +58,7 @@ fun AddFoodDialog(
             ) {
                 Button(onClick = {
                     onEvent(CashierEvent.SaveFood)
+                    Log.d("button", "save button click")
                 }) {
                         Text(text = "Save")
                 }

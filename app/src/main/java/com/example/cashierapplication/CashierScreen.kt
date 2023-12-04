@@ -1,5 +1,6 @@
 package com.example.cashierapplication
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,18 +44,20 @@ fun CashierScreen(
     ) { padding ->
         if (state.isAddingTransactionItem) {
             AddFoodDialog(state = state, onEvent = onEvent)
-        };
+        }
         LazyColumn(
             contentPadding = padding,
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Log.d("screenTag", "Data size: ${state.foods.size}")
             items(state.foods) {contact ->
+                Log.d("items", "success brooo")
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.weight(1f)
                     ) {
                         Text(
                             text = "${contact.name}",
